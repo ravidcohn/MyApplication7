@@ -1,6 +1,7 @@
 package com.example.ravid.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -56,6 +57,24 @@ public class Event extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+        ImageButton edit = (ImageButton) findViewById(R.id.edit);
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(),New_Event.class);
+                startActivity(intent);
+            }
+        });
+
+       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });*/
 
 
     }
@@ -158,29 +177,11 @@ public class Event extends AppCompatActivity {
                     recyclerview.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
                     List<ExpandableListAdapter_Event_Details.Item> data = new ArrayList<>();
 
-                    data.add(new ExpandableListAdapter_Event_Details.Item(ExpandableListAdapter_New_Event_Details.Image));
-                    data.add(new ExpandableListAdapter_Event_Details.Item(ExpandableListAdapter_New_Event_Details.Event_Name));
-
-                    ExpandableListAdapter_Event_Details.Item description = new ExpandableListAdapter_Event_Details.Item(ExpandableListAdapter_Event_Details.Description);
-                    description.invisibleChildren = new ArrayList<>();
-                    description.invisibleChildren.add(new ExpandableListAdapter_Event_Details.Item(ExpandableListAdapter_Event_Details.Description_Child));
-                    data.add(description);
-
-                    ExpandableListAdapter_Event_Details.Item location = new ExpandableListAdapter_Event_Details.Item(ExpandableListAdapter_Event_Details.Location);
-                    data.add(location);
-
-                    ExpandableListAdapter_Event_Details.Item date = new ExpandableListAdapter_Event_Details.Item(ExpandableListAdapter_Event_Details.Date);
-                    date.invisibleChildren = new ArrayList<>();
-                    date.invisibleChildren.add(new ExpandableListAdapter_Event_Details.Item(ExpandableListAdapter_Event_Details.Date_Child));
-                    data.add(date);
-
-                    ExpandableListAdapter_Event_Details.Item repeat = new ExpandableListAdapter_Event_Details.Item(ExpandableListAdapter_Event_Details.Repeat);
-                    repeat.invisibleChildren = new ArrayList<>();
-                    repeat.invisibleChildren.add(new ExpandableListAdapter_Event_Details.Item(ExpandableListAdapter_Event_Details.Repeat_Child));
-                    data.add(repeat);
-
-                    ExpandableListAdapter_Event_Details.Item alert = new ExpandableListAdapter_Event_Details.Item(ExpandableListAdapter_Event_Details.Alert);
-                    data.add(alert);
+                    data.add(new ExpandableListAdapter_Event_Details.Item(ExpandableListAdapter_Event_Details.Image));
+                    data.add(new ExpandableListAdapter_Event_Details.Item(ExpandableListAdapter_Event_Details.Description));
+                    data.add(new ExpandableListAdapter_Event_Details.Item(ExpandableListAdapter_Event_Details.Date));
+                    data.add(new ExpandableListAdapter_Event_Details.Item(ExpandableListAdapter_Event_Details.Location));
+                    data.add(new ExpandableListAdapter_Event_Details.Item(ExpandableListAdapter_Event_Details.Alert));
 
                     recyclerview.setAdapter(new ExpandableListAdapter_Event_Details(data));
 
@@ -257,14 +258,9 @@ public class Event extends AppCompatActivity {
 
 class ExpandableListAdapter_Event_Details extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int Image = 0;
-    public static final int Event_Name = 1;
     public static final int Description = 2;
-    public static final int Description_Child = 3;
     public static final int Location = 4;
     public static final int Date = 5;
-    public static final int Date_Child = 6;
-    public static final int Repeat = 7;
-    public static final int Repeat_Child = 8;
     public static final int Alert = 9;
 
     private List<Item> data;
@@ -284,52 +280,29 @@ class ExpandableListAdapter_Event_Details extends RecyclerView.Adapter<RecyclerV
         inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         switch (type) {
             case Image: {
-                view = inflater.inflate(R.layout.new_event_detail_image, parent, false);
+                view = inflater.inflate(R.layout.event_detail_image, parent, false);
                 ViewHolder_Image viewHolder_image = new ViewHolder_Image(view);
                 return viewHolder_image;
             }
-            case Event_Name: {
-                view = inflater.inflate(R.layout.new_event_detail_event_name, parent, false);
-                ViewHolder_Event_Name viewHolder_event_name = new ViewHolder_Event_Name(view);
-                return viewHolder_event_name;
-            }
             case Description: {
-                view = inflater.inflate(R.layout.new_event_detail_description, parent, false);
+                view = inflater.inflate(R.layout.event_detail_description, parent, false);
                 ViewHolder_Description viewHolder_description = new ViewHolder_Description(view);
                 return viewHolder_description;
             }
-            case Description_Child: {
-                view = inflater.inflate(R.layout.new_event_detail_description_child, parent, false);
-                ViewHolder_Description_Child viewHolder_description_child = new ViewHolder_Description_Child(view);
-                return viewHolder_description_child;
-            }
+
             case Location: {
-                view = inflater.inflate(R.layout.new_event_detail_location, parent, false);
+                view = inflater.inflate(R.layout.event_detail_location, parent, false);
                 ViewHolder_Location viewHolder_location = new ViewHolder_Location(view);
                 return viewHolder_location;
             }
             case Date: {
-                view = inflater.inflate(R.layout.new_event_detail_date, parent, false);
+                view = inflater.inflate(R.layout.event_detail_date, parent, false);
                 ViewHolder_Date viewHolder_date = new ViewHolder_Date(view);
                 return viewHolder_date;
             }
-            case Date_Child: {
-                view = inflater.inflate(R.layout.new_event_detail_date_child, parent, false);
-                ViewHolder_Date_Child viewHolder_date_child = new ViewHolder_Date_Child(view);
-                return viewHolder_date_child;
-            }
-            case Repeat: {
-                view = inflater.inflate(R.layout.new_event_detail_repeat, parent, false);
-                ViewHolder_Repeat viewHolder_repeat = new ViewHolder_Repeat(view);
-                return viewHolder_repeat;
-            }
-            case Repeat_Child: {
-                view = inflater.inflate(R.layout.new_event_detail_repeat_child, parent, false);
-                ViewHolder_Repeat_Child viewHolder_repeat_child = new ViewHolder_Repeat_Child(view);
-                return viewHolder_repeat_child;
-            }
+
             case Alert: {
-                view = inflater.inflate(R.layout.new_event_detail_alert, parent, false);
+                view = inflater.inflate(R.layout.event_detail_alert, parent, false);
                 ViewHolder_Alert viewHolder_alert = new ViewHolder_Alert(view);
                 return viewHolder_alert;
             }
@@ -344,93 +317,6 @@ class ExpandableListAdapter_Event_Details extends RecyclerView.Adapter<RecyclerV
             case Image: {
                 break;
 
-            }
-            case Event_Name: {
-                break;
-            }
-            case Description: {
-                final ViewHolder_Description itemController = (ViewHolder_Description) holder;
-                itemController.refferalItem = item;
-                if (item.invisibleChildren == null) {
-                    itemController.expand_arrow.setImageResource(android.R.drawable.arrow_up_float);
-                } else {
-                    itemController.expand_arrow.setImageResource(android.R.drawable.arrow_down_float);
-                }
-                itemController.expand_arrow.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (item.invisibleChildren == null) {
-                            item.invisibleChildren = new ArrayList<Item>();
-                            int pos = data.indexOf(itemController.refferalItem);
-                            item.invisibleChildren.add(data.remove(pos + 1));
-                            notifyItemRangeRemoved(pos + 1, 1);
-                            itemController.expand_arrow.setImageResource(android.R.drawable.arrow_down_float);
-                        } else {
-                            int pos = data.indexOf(itemController.refferalItem);
-                            data.add(pos + 1, item.invisibleChildren.get(0));
-                            notifyItemRangeInserted(pos + 1, 1);
-                            itemController.expand_arrow.setImageResource(android.R.drawable.arrow_up_float);
-                            item.invisibleChildren = null;
-                        }
-                    }
-                });
-                break;
-            }
-            case Date: {
-                final ViewHolder_Date itemController = (ViewHolder_Date) holder;
-                itemController.refferalItem = item;
-                if (item.invisibleChildren == null) {
-                    itemController.expand_arrow.setImageResource(android.R.drawable.arrow_up_float);
-                } else {
-                    itemController.expand_arrow.setImageResource(android.R.drawable.arrow_down_float);
-                }
-                itemController.expand_arrow.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (item.invisibleChildren == null) {
-                            item.invisibleChildren = new ArrayList<Item>();
-                            int pos = data.indexOf(itemController.refferalItem);
-                            item.invisibleChildren.add(data.remove(pos + 1));
-                            notifyItemRangeRemoved(pos + 1, 1);
-                            itemController.expand_arrow.setImageResource(android.R.drawable.arrow_down_float);
-                        } else {
-                            int pos = data.indexOf(itemController.refferalItem);
-                            data.add(pos + 1, item.invisibleChildren.get(0));
-                            notifyItemRangeInserted(pos + 1, 1);
-                            itemController.expand_arrow.setImageResource(android.R.drawable.arrow_up_float);
-                            item.invisibleChildren = null;
-                        }
-                    }
-                });
-                break;
-            }
-            case Repeat: {
-                final ViewHolder_Repeat itemController = (ViewHolder_Repeat) holder;
-                itemController.refferalItem = item;
-                if (item.invisibleChildren == null) {
-                    itemController.expand_arrow.setImageResource(android.R.drawable.arrow_up_float);
-                } else {
-                    itemController.expand_arrow.setImageResource(android.R.drawable.arrow_down_float);
-                }
-                itemController.expand_arrow.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (item.invisibleChildren == null) {
-                            item.invisibleChildren = new ArrayList<Item>();
-                            int pos = data.indexOf(itemController.refferalItem);
-                            item.invisibleChildren.add(data.remove(pos + 1));
-                            notifyItemRangeRemoved(pos + 1, 1);
-                            itemController.expand_arrow.setImageResource(android.R.drawable.arrow_down_float);
-                        } else {
-                            int pos = data.indexOf(itemController.refferalItem);
-                            data.add(pos + 1, item.invisibleChildren.get(0));
-                            notifyItemRangeInserted(pos + 1, 1);
-                            itemController.expand_arrow.setImageResource(android.R.drawable.arrow_up_float);
-                            item.invisibleChildren = null;
-                        }
-                    }
-                });
-                break;
             }
         }
     }
@@ -453,14 +339,6 @@ class ExpandableListAdapter_Event_Details extends RecyclerView.Adapter<RecyclerV
         }
     }
 
-    private static class ViewHolder_Event_Name extends RecyclerView.ViewHolder {
-        public Item refferalItem;
-
-        public ViewHolder_Event_Name(View itemView) {
-            super(itemView);
-        }
-    }
-
     private static class ViewHolder_Description extends RecyclerView.ViewHolder {
         public ImageButton expand_arrow;
         public Item refferalItem;
@@ -471,12 +349,7 @@ class ExpandableListAdapter_Event_Details extends RecyclerView.Adapter<RecyclerV
         }
     }
 
-    private static class ViewHolder_Description_Child extends RecyclerView.ViewHolder {
 
-        public ViewHolder_Description_Child(View itemView) {
-            super(itemView);
-        }
-    }
 
     private static class ViewHolder_Location extends RecyclerView.ViewHolder {
 
@@ -495,31 +368,6 @@ class ExpandableListAdapter_Event_Details extends RecyclerView.Adapter<RecyclerV
         }
     }
 
-    private static class ViewHolder_Date_Child extends RecyclerView.ViewHolder {
-        public Item refferalItem;
-
-        public ViewHolder_Date_Child(View itemView) {
-            super(itemView);
-        }
-    }
-
-    private static class ViewHolder_Repeat extends RecyclerView.ViewHolder {
-        public Item refferalItem;
-        public ImageButton expand_arrow;
-
-        public ViewHolder_Repeat(View itemView) {
-            super(itemView);
-            expand_arrow = (ImageButton) itemView.findViewById(R.id.expand_arrow);
-        }
-    }
-
-    private static class ViewHolder_Repeat_Child extends RecyclerView.ViewHolder {
-        public Item refferalItem;
-
-        public ViewHolder_Repeat_Child(View itemView) {
-            super(itemView);
-        }
-    }
 
     private static class ViewHolder_Alert extends RecyclerView.ViewHolder {
         public Item refferalItem;

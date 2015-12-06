@@ -24,7 +24,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingRight="10dp">
 
                 <TextView
                     android:id="@+id/page_title"
@@ -32,8 +33,16 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="Poker"
-                    android:textAlignment="center"
                     android:textSize="30dp" />
+
+                <ImageButton
+                    android:id="@+id/edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:src="@android:drawable/ic_menu_edit" />
 
             </RelativeLayout>
 
@@ -42,7 +51,10 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+
+        </android.support.design.widget.TabLayout>
+
 
     </android.support.design.widget.AppBarLayout>
 
@@ -52,5 +64,11 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-
+    <!--android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|bottom"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@android:drawable/ic_menu_edit" /-->
 </android.support.design.widget.CoordinatorLayout>
