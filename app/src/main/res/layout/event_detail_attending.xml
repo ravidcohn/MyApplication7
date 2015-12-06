@@ -13,20 +13,20 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/imageView3"
-            android:layout_toStartOf="@+id/imageView3"
-            android:text="This is just some text to described the event. Nothing rely interesting about it. What a Beautiful Day."
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:text="12 Yes, 7 Maybe, 30 No"
             android:textSize="20dp" />
 
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:src="@mipmap/ic_info2" />
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_groups2" />
 
     </RelativeLayout>
 

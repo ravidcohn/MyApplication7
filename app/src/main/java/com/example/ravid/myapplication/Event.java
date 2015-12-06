@@ -181,6 +181,7 @@ public class Event extends AppCompatActivity {
                     data.add(new ExpandableListAdapter_Event_Details.Item(ExpandableListAdapter_Event_Details.Description));
                     data.add(new ExpandableListAdapter_Event_Details.Item(ExpandableListAdapter_Event_Details.Date));
                     data.add(new ExpandableListAdapter_Event_Details.Item(ExpandableListAdapter_Event_Details.Location));
+                    data.add(new ExpandableListAdapter_Event_Details.Item(ExpandableListAdapter_Event_Details.Attending));
                     data.add(new ExpandableListAdapter_Event_Details.Item(ExpandableListAdapter_Event_Details.Alert));
 
                     recyclerview.setAdapter(new ExpandableListAdapter_Event_Details(data));
@@ -261,6 +262,7 @@ class ExpandableListAdapter_Event_Details extends RecyclerView.Adapter<RecyclerV
     public static final int Description = 2;
     public static final int Location = 4;
     public static final int Date = 5;
+    public static final int Attending = 6;
     public static final int Alert = 9;
 
     private List<Item> data;
@@ -300,7 +302,11 @@ class ExpandableListAdapter_Event_Details extends RecyclerView.Adapter<RecyclerV
                 ViewHolder_Date viewHolder_date = new ViewHolder_Date(view);
                 return viewHolder_date;
             }
-
+            case Attending: {
+                view = inflater.inflate(R.layout.event_detail_attending, parent, false);
+                ViewHolder_Attending viewHolder_attnding = new ViewHolder_Attending(view);
+                return viewHolder_attnding;
+            }
             case Alert: {
                 view = inflater.inflate(R.layout.event_detail_alert, parent, false);
                 ViewHolder_Alert viewHolder_alert = new ViewHolder_Alert(view);
@@ -368,6 +374,14 @@ class ExpandableListAdapter_Event_Details extends RecyclerView.Adapter<RecyclerV
         }
     }
 
+
+    private static class ViewHolder_Attending extends RecyclerView.ViewHolder {
+        public Item refferalItem;
+
+        public ViewHolder_Attending(View itemView) {
+            super(itemView);
+        }
+    }
 
     private static class ViewHolder_Alert extends RecyclerView.ViewHolder {
         public Item refferalItem;
@@ -561,9 +575,9 @@ class ExpandableListAdapter_Event_Tasks extends RecyclerView.Adapter<RecyclerVie
                 final ViewHolder_Task itemController = (ViewHolder_Task) holder;
                 itemController.refferalItem = item;
                 if (item.invisibleChildren == null) {
-                    itemController.expand_arrow.setImageResource(android.R.drawable.arrow_up_float);
+                    itemController.expand_arrow.setImageResource(R.mipmap.ic_collapse_arrow);
                 } else {
-                    itemController.expand_arrow.setImageResource(android.R.drawable.arrow_down_float);
+                    itemController.expand_arrow.setImageResource(R.mipmap.ic_expand_arrow);
                 }
                 itemController.expand_arrow.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -577,7 +591,7 @@ class ExpandableListAdapter_Event_Tasks extends RecyclerView.Adapter<RecyclerVie
                                 count++;
                             }
                             notifyItemRangeRemoved(pos + 1, count);
-                            itemController.expand_arrow.setImageResource(android.R.drawable.arrow_down_float);
+                            itemController.expand_arrow.setImageResource(R.mipmap.ic_expand_arrow);
                         } else {
                             int pos = data.indexOf(itemController.refferalItem);
 
@@ -587,7 +601,7 @@ class ExpandableListAdapter_Event_Tasks extends RecyclerView.Adapter<RecyclerVie
                                 index++;
                             }
                             notifyItemRangeInserted(pos + 1, index - pos - 1);
-                            itemController.expand_arrow.setImageResource(android.R.drawable.arrow_up_float);
+                            itemController.expand_arrow.setImageResource(R.mipmap.ic_collapse_arrow);
                             item.invisibleChildren = null;
                         }
                     }
