@@ -62,7 +62,7 @@ public class Event extends AppCompatActivity {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(),New_Event.class);
+                Intent intent = new Intent(v.getContext(), New_Event.class);
                 startActivity(intent);
             }
         });
@@ -183,6 +183,7 @@ public class Event extends AppCompatActivity {
                     data.add(new ExpandableListAdapter_Event_Details.Item(ExpandableListAdapter_Event_Details.Location));
                     data.add(new ExpandableListAdapter_Event_Details.Item(ExpandableListAdapter_Event_Details.Attending));
                     data.add(new ExpandableListAdapter_Event_Details.Item(ExpandableListAdapter_Event_Details.Alert));
+                    data.add(new ExpandableListAdapter_Event_Details.Item(ExpandableListAdapter_Event_Details.Weather));
 
                     recyclerview.setAdapter(new ExpandableListAdapter_Event_Details(data));
 
@@ -245,7 +246,7 @@ public class Event extends AppCompatActivity {
                     }
 
                     recyclerview.setAdapter(new ExpandableListAdapter_Event_Chat(data));
-                    recyclerview.scrollToPosition(data.size()-1);
+                    recyclerview.scrollToPosition(data.size() - 1);
                     return rootView;
                 }
             }
@@ -264,6 +265,8 @@ class ExpandableListAdapter_Event_Details extends RecyclerView.Adapter<RecyclerV
     public static final int Date = 5;
     public static final int Attending = 6;
     public static final int Alert = 9;
+    public static final int Weather = 10;
+
 
     private List<Item> data;
 
@@ -291,7 +294,6 @@ class ExpandableListAdapter_Event_Details extends RecyclerView.Adapter<RecyclerV
                 ViewHolder_Description viewHolder_description = new ViewHolder_Description(view);
                 return viewHolder_description;
             }
-
             case Location: {
                 view = inflater.inflate(R.layout.event_detail_location, parent, false);
                 ViewHolder_Location viewHolder_location = new ViewHolder_Location(view);
@@ -311,6 +313,11 @@ class ExpandableListAdapter_Event_Details extends RecyclerView.Adapter<RecyclerV
                 view = inflater.inflate(R.layout.event_detail_alert, parent, false);
                 ViewHolder_Alert viewHolder_alert = new ViewHolder_Alert(view);
                 return viewHolder_alert;
+            }
+            case Weather: {
+                view = inflater.inflate(R.layout.event_detail_weather, parent, false);
+                ViewHolder_Weather viewHolder_weather = new ViewHolder_Weather(view);
+                return viewHolder_weather;
             }
 
         }
@@ -356,7 +363,6 @@ class ExpandableListAdapter_Event_Details extends RecyclerView.Adapter<RecyclerV
     }
 
 
-
     private static class ViewHolder_Location extends RecyclerView.ViewHolder {
 
         public ViewHolder_Location(View itemView) {
@@ -390,7 +396,13 @@ class ExpandableListAdapter_Event_Details extends RecyclerView.Adapter<RecyclerV
             super(itemView);
         }
     }
+    private static class ViewHolder_Weather extends RecyclerView.ViewHolder {
+        public Item refferalItem;
 
+        public ViewHolder_Weather(View itemView) {
+            super(itemView);
+        }
+    }
     public static class Item {
         public int type;
         public List<Item> invisibleChildren;
@@ -557,6 +569,7 @@ class ExpandableListAdapter_Event_Tasks extends RecyclerView.Adapter<RecyclerVie
 
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final Item item = data.get(position);
+        View view = holder.itemView;
         switch (item.type) {
             case Task_Child: {
                 /*
@@ -579,7 +592,9 @@ class ExpandableListAdapter_Event_Tasks extends RecyclerView.Adapter<RecyclerVie
                 } else {
                     itemController.expand_arrow.setImageResource(R.mipmap.ic_expand_arrow);
                 }
-                itemController.expand_arrow.setOnClickListener(new View.OnClickListener() {
+                //itemController.expand_arrow.setOnClickListener(new View.OnClickListener() {
+                view.setOnClickListener(new View.OnClickListener() {
+
                     @Override
                     public void onClick(View v) {
                         if (item.invisibleChildren == null) {
