@@ -47,18 +47,19 @@
 
                     <TextView
                         android:id="@+id/application_name"
+                        style="@style/activity_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="Brings"
-                        android:textAlignment="center"
-                        android:textSize="30dp" />
+                        android:text="Brings" />
 
                     <Spinner
                         android:id="@+id/spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
                         android:layout_toEndOf="@+id/application_name"
                         android:layout_toRightOf="@+id/application_name"
                         android:popupTheme="@style/AppTheme.PopupOverlay"
@@ -66,14 +67,15 @@
 
                     <ImageButton
                         android:id="@+id/new_event"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/toolbar_icons"
+                        android:layout_width="@dimen/toolbar_icons"
+                        android:layout_height="@dimen/toolbar_icons"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"
                         android:layout_centerInParent="true"
+                        android:layout_marginRight="10dp"
                         android:background="@android:color/transparent"
-                        android:src="@mipmap/ic_plus" />
+                        android:src="@mipmap/ic_event_white" />
                 </RelativeLayout>
 
             </android.support.v7.widget.Toolbar>
@@ -106,7 +108,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="bottom"
-        android:background="@color/colorLight"
+        android:background="@color/text"
         app:layout_scrollFlags="scroll|enterAlways"
         app:popupTheme="@style/AppTheme.PopupOverlay">
 
@@ -116,6 +118,7 @@
             android:layout_height="@android:dimen/app_icon_size"
             android:layout_gravity="left"
             android:layout_marginLeft="10dp"
+            android:background="@android:color/transparent"
             android:src="@mipmap/group" />
 
         <ImageButton
@@ -123,6 +126,7 @@
             android:layout_width="@android:dimen/app_icon_size"
             android:layout_height="@android:dimen/app_icon_size"
             android:layout_gravity="center"
+            android:background="@android:color/transparent"
             android:src="@mipmap/todo" />
 
         <ImageButton
@@ -131,6 +135,7 @@
             android:layout_height="@android:dimen/app_icon_size"
             android:layout_gravity="right"
             android:layout_marginRight="10dp"
+            android:background="@android:color/transparent"
             android:src="@mipmap/archive" />
 
 

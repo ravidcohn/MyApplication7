@@ -11,13 +11,14 @@
         android:layout_height="wrap_content">
 
         <TextView
+            style="@style/event_main_text_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:text="Thursday, 22/05/2013 \n18:30-22:00\nThis event repeating every week "
-            android:textSize="20dp" />
+             />
 
         <ImageView
             android:id="@+id/imageView3"

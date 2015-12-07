@@ -28,7 +28,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:elevation="200dp"
-        card_view:cardBackgroundColor="@color/cardview_initial_background"
+        card_view:cardBackgroundColor="@color/cardview_initial_background2"
         card_view:cardCornerRadius="5dp">
 
         <RelativeLayout
@@ -53,7 +53,7 @@
                 android:layout_toEndOf="@+id/imageView"
                 android:layout_toRightOf="@+id/imageView"
                 android:text="Poker"
-                android:textColor="@color/black"
+                android:textColor="@color/baseColor"
                 android:textSize="25dp"
                 android:textStyle="bold" />
 
@@ -62,10 +62,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/textView"
+                android:layout_alignLeft="@+id/textView"
                 android:layout_below="@+id/textView"
                 android:layout_marginTop="2dp"
                 android:text="Tel Aviv"
-                android:textColor="@color/black"
+                android:textColor="@color/baseColor"
                 android:textSize="16dp"
                 android:autoLink="map" />
 
@@ -74,10 +75,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/location"
+                android:layout_alignLeft="@+id/location"
                 android:layout_below="@+id/location"
                 android:layout_marginTop="2dp"
                 android:text="15/10/2015 15:00"
-                android:textColor="@color/black"
+                android:textColor="@color/baseColor"
                 android:textSize="16dp" />
 
             <TextView
@@ -88,7 +90,7 @@
                 android:layout_below="@+id/date"
                 android:layout_marginTop="2dp"
                 android:text="20 coming, 5 maybe"
-                android:textColor="@color/black"
+                android:textColor="@color/baseColor"
                 android:textSize="16dp" />
         </RelativeLayout>
 

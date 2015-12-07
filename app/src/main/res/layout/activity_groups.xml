@@ -21,11 +21,10 @@
 
             <TextView
                 android:id="@+id/page_title"
+                style="@style/activity_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Groups"
-                android:textAlignment="center"
-                android:textSize="30dp" />
+                android:text="Groups" />
 
             <ImageButton
                 android:id="@+id/new_group"

@@ -11,6 +11,7 @@
         android:layout_height="wrap_content">
 
         <TextView
+            style="@style/event_main_text_color"
             android:id="@+id/location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -18,7 +19,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:text="Partly cloudy, 25 degrees"
-            android:textSize="20dp" />
+             />
 
         <ImageView
             android:id="@+id/imageView3"

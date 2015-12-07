@@ -5,4 +5,8 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
     <dimen name="new_event_title_margin">5dp</dimen>
+    <dimen name="toolbar_icons">30dp</dimen>
+    <dimen name="event_main_icons">25dp</dimen>
+
+
 </resources>

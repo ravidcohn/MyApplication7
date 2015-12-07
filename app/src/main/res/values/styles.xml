@@ -36,6 +36,38 @@
     <style name="padding_event_detail2">
         <item name="android:paddingBottom">8dp</item>
         <item name="android:paddingLeft">8dp</item>
-        <item name="android:paddingRight">8dp</item>
     </style>
+
+    <style name="activity_title">
+        <item name="android:textColor">@color/colorTab</item>
+        <item name="android:textSize">30dp</item>
+    </style>
+
+    <style name="event_main_text_color">
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">20dp</item>
+    </style>
+
+    <style name="event_main_icons">
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:adjustViewBounds">true</item>
+    </style>
+
+    <style name="toolbar_icons">
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:adjustViewBounds">true</item>
+    </style>
+
+    <style name="spinnerItemStyle">
+        <item name="android:padding">10dp</item>
+        <item name="android:textSize">50sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="spinnerDropDownItemStyle">
+        <item name="android:padding">20dp</item>
+        <item name="android:textSize">50sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
 </resources>

@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -192,6 +193,7 @@ public class Event extends AppCompatActivity {
                     return rootView;
                 }
                 case 2: {
+                    {/*
                     View rootView = inflater.inflate(R.layout.fragment_event_friends, container, false);
                     final RecyclerView recyclerview = (RecyclerView) rootView.findViewById(R.id.recyclerView);
                     recyclerview.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
@@ -207,6 +209,37 @@ public class Event extends AppCompatActivity {
                     for (int i = 0; i < 6; i++) {
                         data.add(new ExpandableListAdapter_Event_Friends.Item(ExpandableListAdapter_Event_Friends.User_No));
                     }
+                    recyclerview.setAdapter(new ExpandableListAdapter_Event_Friends(data));
+
+
+                    return rootView;
+                    */
+                    }
+                    View rootView = inflater.inflate(R.layout.fragment_event_friends, container, false);
+                    final RecyclerView recyclerview = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+                    recyclerview.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
+                    List<ExpandableListAdapter_Event_Friends.Item> data = new ArrayList<>();
+                    ExpandableListAdapter_Event_Friends.Item user = new ExpandableListAdapter_Event_Friends.Item(ExpandableListAdapter_Event_Friends.User);
+                    user.invisibleChildren = new ArrayList<>();
+                    user.text = "4 Approve";
+                    for (int i = 0; i < 4; i++) {
+                        user.invisibleChildren.add(new ExpandableListAdapter_Event_Friends.Item(ExpandableListAdapter_Event_Friends.User_Child));
+                    }
+                    data.add(user);
+                    user = new ExpandableListAdapter_Event_Friends.Item(ExpandableListAdapter_Event_Friends.User);
+                    user.invisibleChildren = new ArrayList<>();
+                    user.text = "8 Not decided";
+                    for (int i = 0; i < 8; i++) {
+                        user.invisibleChildren.add(new ExpandableListAdapter_Event_Friends.Item(ExpandableListAdapter_Event_Friends.User_Child));
+                    }
+                    data.add(user);
+                    user = new ExpandableListAdapter_Event_Friends.Item(ExpandableListAdapter_Event_Friends.User);
+                    user.invisibleChildren = new ArrayList<>();
+                    user.text = "3 Not coming";
+                    for (int i = 0; i < 3; i++) {
+                        user.invisibleChildren.add(new ExpandableListAdapter_Event_Friends.Item(ExpandableListAdapter_Event_Friends.User_Child));
+                    }
+                    data.add(user);
                     recyclerview.setAdapter(new ExpandableListAdapter_Event_Friends(data));
 
 
@@ -396,6 +429,7 @@ class ExpandableListAdapter_Event_Details extends RecyclerView.Adapter<RecyclerV
             super(itemView);
         }
     }
+
     private static class ViewHolder_Weather extends RecyclerView.ViewHolder {
         public Item refferalItem;
 
@@ -403,6 +437,7 @@ class ExpandableListAdapter_Event_Details extends RecyclerView.Adapter<RecyclerV
             super(itemView);
         }
     }
+
     public static class Item {
         public int type;
         public List<Item> invisibleChildren;
@@ -422,7 +457,9 @@ class ExpandableListAdapter_Event_Friends extends RecyclerView.Adapter<RecyclerV
     public static final int User_Yes = 2;
     public static final int User_Maybe = 3;
     public static final int User_No = 4;
-
+    public static final int User = 5;
+    public static final int User_Child = 6;
+    private String text_view;
 
     private List<Item> data;
 
@@ -469,7 +506,19 @@ class ExpandableListAdapter_Event_Friends extends RecyclerView.Adapter<RecyclerV
                 ViewHolder_User viewHolder_user = new ViewHolder_User(view);
                 return viewHolder_user;
             }
-
+            case User: {
+                inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                view = inflater.inflate(R.layout.event_friend_user, parent, false);
+                ViewHolder_User viewHolder_user = new ViewHolder_User(view);
+                viewHolder_user.textView.setText(text_view);
+                return viewHolder_user;
+            }
+            case User_Child: {
+                inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                view = inflater.inflate(R.layout.event_friend_user_child, parent, false);
+                ViewHolder_User_Child viewHolder_user_child = new ViewHolder_User_Child(view);
+                return viewHolder_user_child;
+            }
 
         }
         return null;
@@ -477,8 +526,9 @@ class ExpandableListAdapter_Event_Friends extends RecyclerView.Adapter<RecyclerV
 
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final Item item = data.get(position);
+        View view = holder.itemView;
         switch (item.type) {
-            case User_Yes:
+            case User_Yes: {
                 /*
                 final ListChildViewHolder2 itemController2 = (ListChildViewHolder2) holder;
                 itemController2.refferalItem = item;
@@ -490,17 +540,55 @@ class ExpandableListAdapter_Event_Friends extends RecyclerView.Adapter<RecyclerV
                 });
                 */
                 break;
-
-
+            }
             case Summarize: {
                 break;
             }
+            case User: {
+                final ViewHolder_User itemController = (ViewHolder_User) holder;
+                itemController.refferalItem = item;
+                if (item.invisibleChildren == null) {
+                    itemController.expand_arrow.setImageResource(R.mipmap.ic_collapse_arrow);
+                } else {
+                    itemController.expand_arrow.setImageResource(R.mipmap.ic_expand_arrow);
+                }
+                //itemController.expand_arrow.setOnClickListener(new View.OnClickListener() {
+                view.setOnClickListener(new View.OnClickListener() {
 
+                    @Override
+                    public void onClick(View v) {
+                        if (item.invisibleChildren == null) {
+                            item.invisibleChildren = new ArrayList<Item>();
+                            int pos = data.indexOf(itemController.refferalItem);
+                            int count = 0;
+                            while (data.size() > pos + 1 && data.get(pos + 1).type != User) {
+                                item.invisibleChildren.add(data.remove(pos + 1));
+                                count++;
+                            }
+                            notifyItemRangeRemoved(pos + 1, count);
+                            itemController.expand_arrow.setImageResource(R.mipmap.ic_expand_arrow);
+                        } else {
+                            int pos = data.indexOf(itemController.refferalItem);
+
+                            int index = pos + 1;
+                            for (Item i : item.invisibleChildren) {
+                                data.add(index, i);
+                                index++;
+                            }
+                            notifyItemRangeInserted(pos + 1, index - pos - 1);
+                            itemController.expand_arrow.setImageResource(R.mipmap.ic_collapse_arrow);
+                            item.invisibleChildren = null;
+                        }
+                    }
+                });
+                break;
+            }
         }
     }
 
     @Override
     public int getItemViewType(int position) {
+        text_view = data.get(position).text;
         return data.get(position).type;
     }
 
@@ -512,16 +600,28 @@ class ExpandableListAdapter_Event_Friends extends RecyclerView.Adapter<RecyclerV
 
     private static class ViewHolder_User extends RecyclerView.ViewHolder {
         public Item refferalItem;
+        TextView textView;
+        ImageButton expand_arrow;
 
         public ViewHolder_User(View itemView) {
+            super(itemView);
+            textView = (TextView) itemView.findViewById(R.id.textView);
+            expand_arrow = (ImageButton) itemView.findViewById(R.id.expand_arrow);
+        }
+    }
+
+    private static class ViewHolder_User_Child extends RecyclerView.ViewHolder {
+        public Item refferalItem;
+
+        public ViewHolder_User_Child(View itemView) {
             super(itemView);
         }
     }
 
-
     public static class Item {
         public int type;
         public List<Item> invisibleChildren;
+        public String text;
 
         public Item() {
         }

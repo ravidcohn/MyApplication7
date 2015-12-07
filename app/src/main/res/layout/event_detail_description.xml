@@ -11,13 +11,14 @@
         android:layout_height="wrap_content">
 
         <TextView
+            style="@style/event_main_text_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@+id/imageView3"
             android:layout_toStartOf="@+id/imageView3"
             android:text="This is just some text to described the event. Nothing rely interesting about it. What a Beautiful Day."
-            android:textSize="20dp" />
+           />
 
         <ImageView
             android:id="@+id/imageView3"

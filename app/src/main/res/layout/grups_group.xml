@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_margin="5dp"
-            android:background="@color/black"
+            android:background="@color/baseColor"
             android:src="@mipmap/ic_launcher" />
 
         <TextView
@@ -53,5 +53,5 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:background="@color/black" />
+        android:background="@color/baseColor" />
 </LinearLayout>

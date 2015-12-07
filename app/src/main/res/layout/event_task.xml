@@ -7,17 +7,19 @@
     android:paddingRight="8dp">
 
     <RelativeLayout
+        style="@style/padding_event_detail2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/task_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_margin="5dp"
             android:text="Shopping"
-            android:textSize="25dp" />
+            android:textColor="@color/baseColor"
+            android:textSize="23dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -25,7 +27,8 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="David"
-            android:textSize="22dp" />
+            android:textColor="@color/secondaryText_icons"
+            android:textSize="20dp" />
 
         <CheckBox
             android:id="@+id/checkBox"

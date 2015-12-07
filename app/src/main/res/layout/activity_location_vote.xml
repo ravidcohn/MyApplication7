@@ -21,12 +21,10 @@
 
             <TextView
                 android:id="@+id/application_name"
+                style="@style/activity_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Location Vote"
-                android:textAlignment="center"
-                android:textSize="30dp" />
+                android:text="Location Vote" />
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>

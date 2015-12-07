@@ -21,11 +21,10 @@
 
             <TextView
                 android:id="@+id/page_title"
+                style="@style/activity_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Archive"
-                android:textAlignment="center"
-                android:textSize="30dp" />
+                android:text="Archive" />
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
