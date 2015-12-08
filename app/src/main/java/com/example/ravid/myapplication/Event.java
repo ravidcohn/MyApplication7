@@ -17,6 +17,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -655,6 +657,8 @@ class ExpandableListAdapter_Event_Tasks extends RecyclerView.Adapter<RecyclerVie
                 inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 view = inflater.inflate(R.layout.event_task, parent, false);
                 ViewHolder_Task viewHolder_task = new ViewHolder_Task(view);
+                viewHolder_task.textView.setText("");
+                viewHolder_task.checkBox2.bringToFront();
                 return viewHolder_task;
             }
             case Task_Child: {
@@ -667,7 +671,8 @@ class ExpandableListAdapter_Event_Tasks extends RecyclerView.Adapter<RecyclerVie
         return null;
     }
 
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        final String[] names = new String[]{"Dani","Dor", "Gali","Hila", "Benjamin"};
         final Item item = data.get(position);
         View view = holder.itemView;
         switch (item.type) {
@@ -721,7 +726,35 @@ class ExpandableListAdapter_Event_Tasks extends RecyclerView.Adapter<RecyclerVie
                         }
                     }
                 });
+                itemController.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            itemController.textView.setText(names[position % 5]);
+                            if (names[position % 5].equals("Dani")) {
+                                itemController.checkBox2.setVisibility(View.VISIBLE);
+                            } else {
+                                //RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) itemController.task_name.getLayoutParams();
+                                //params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                                //params.addRule(RelativeLayout.LEFT_OF, R.id.imageView);
+                                //params.addRule(RelativeLayout.END_OF, R.id.imageView);
+                                //params.setMarginStart(10);
+                                //itemController.task_name.setLayoutParams(params); //causes layout update
+                                //itemController.task_name.setText("Shopping");
+                                itemController.checkBox.setVisibility(View.GONE);
+
+                            }
+
+
+                        } else {
+                            itemController.textView.setText("");
+                            itemController.checkBox2.setVisibility(View.GONE);
+                        }
+                    }
+                });
+
                 break;
+
             }
         }
     }
@@ -739,11 +772,21 @@ class ExpandableListAdapter_Event_Tasks extends RecyclerView.Adapter<RecyclerVie
 
     private static class ViewHolder_Task extends RecyclerView.ViewHolder {
         public ImageButton expand_arrow;
+        public TextView textView;
+        public TextView task_name;
+        public CheckBox checkBox;
+        public CheckBox checkBox2;
         public Item refferalItem;
 
         public ViewHolder_Task(View itemView) {
             super(itemView);
             expand_arrow = (ImageButton) itemView.findViewById(R.id.task_list);
+            textView = (TextView) itemView.findViewById(R.id.textView);
+            checkBox = (CheckBox) itemView.findViewById(R.id.checkBox);
+            checkBox2 = (CheckBox) itemView.findViewById(R.id.checkBox2);
+            task_name = (TextView) itemView.findViewById(R.id.task_name);
+
+
         }
     }
 

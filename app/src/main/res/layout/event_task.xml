@@ -16,35 +16,53 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_margin="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toEndOf="@+id/checkBox3"
+            android:layout_toRightOf="@+id/checkBox3"
             android:text="Shopping"
             android:textColor="@color/baseColor"
             android:textSize="23dp" />
 
+        <CheckBox
+            android:id="@+id/checkBox3"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:button="@drawable/checkbox_selector2" />
+
         <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="David"
+            android:layout_marginLeft="15dp"
+            android:layout_toEndOf="@+id/task_name"
+            android:layout_toRightOf="@+id/task_name"
+            android:text=""
             android:textColor="@color/secondaryText_icons"
-            android:textSize="20dp" />
+            android:textSize="17dp" />
+
 
         <CheckBox
-            android:id="@+id/checkBox"
+            android:id="@+id/checkBox2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/task_list"
-            android:layout_toStartOf="@+id/task_list" />
+            android:layout_toStartOf="@+id/task_list"
+            android:visibility="gone" />
 
         <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/task_list"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/checkBox"
-            android:layout_toStartOf="@+id/checkBox" />
+            android:id="@+id/checkBox"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:button="@drawable/checkbox_selector" />
+
 
         <ImageButton
             android:id="@+id/task_list"
