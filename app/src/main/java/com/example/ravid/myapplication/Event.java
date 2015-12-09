@@ -1,5 +1,6 @@
 package com.example.ravid.myapplication;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -263,9 +265,7 @@ public class Event extends AppCompatActivity {
                         }
                         data.add(task);
                     }
-
-                    recyclerview.setAdapter(new ExpandableListAdapter_Event_Tasks(data));
-
+                    recyclerview.setAdapter(new ExpandableListAdapter_Event_Tasks(data, recyclerview));
                     return rootView;
                 }
                 case 4: {
@@ -366,6 +366,21 @@ class ExpandableListAdapter_Event_Details extends RecyclerView.Adapter<RecyclerV
                 break;
 
             }
+            case Location: {
+                final ViewHolder_Location itemController = (ViewHolder_Location) holder;
+                itemController.refferalItem = item;
+                itemController.imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Dialog dialog = new Dialog(v.getContext());
+                        dialog.setContentView(R.layout.event_detail_location_dialog);
+                        dialog.setTitle("This is my custom dialog box");
+                        dialog.setCancelable(true);
+                        dialog.show();
+                    }
+                });
+                break;
+            }
         }
     }
 
@@ -400,8 +415,12 @@ class ExpandableListAdapter_Event_Details extends RecyclerView.Adapter<RecyclerV
 
     private static class ViewHolder_Location extends RecyclerView.ViewHolder {
 
+        public ImageView imageView;
+        public Item refferalItem;
+
         public ViewHolder_Location(View itemView) {
             super(itemView);
+            imageView = (ImageView) itemView.findViewById(R.id.imageView);
         }
     }
 
@@ -639,9 +658,11 @@ class ExpandableListAdapter_Event_Tasks extends RecyclerView.Adapter<RecyclerVie
     public static final int Task_Child = 1;
 
     private List<Item> data;
+    private RecyclerView recyclerView;
 
-    public ExpandableListAdapter_Event_Tasks(List<Item> data) {
+    public ExpandableListAdapter_Event_Tasks(List<Item> data, RecyclerView recyclerView) {
         this.data = data;
+        this.recyclerView = recyclerView;
     }
 
     @Override
@@ -672,7 +693,7 @@ class ExpandableListAdapter_Event_Tasks extends RecyclerView.Adapter<RecyclerVie
     }
 
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        final String[] names = new String[]{"Dani","Dor", "Gali","Hila", "Benjamin"};
+        final String[] names = new String[]{"Dani", "Dor", "Gali", "Hila", "Benjamin"};
         final Item item = data.get(position);
         View view = holder.itemView;
         switch (item.type) {
@@ -723,32 +744,42 @@ class ExpandableListAdapter_Event_Tasks extends RecyclerView.Adapter<RecyclerVie
                             notifyItemRangeInserted(pos + 1, index - pos - 1);
                             itemController.expand_arrow.setImageResource(R.mipmap.ic_collapse_arrow);
                             item.invisibleChildren = null;
+                            if (itemController.checkBox.isChecked() && names[position % 5].equals("Dani")) {
+                               // setCheckBox(position, true);
+                            } else {
+                               // setCheckBox(position, false);
+                            }
                         }
                     }
                 });
                 itemController.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        int pos = data.indexOf(itemController.refferalItem);
                         if (isChecked) {
-                            itemController.textView.setText(names[position % 5]);
-                            if (names[position % 5].equals("Dani")) {
+                            itemController.textView.setText(names[pos % 5]);
+                            if (names[pos % 5].equals("Dani")) {
                                 itemController.checkBox2.setVisibility(View.VISIBLE);
+                                setCheckBox(pos, true);
+                                notifyItemChanged(pos);
                             } else {
-                                //RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) itemController.task_name.getLayoutParams();
-                                //params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-                                //params.addRule(RelativeLayout.LEFT_OF, R.id.imageView);
-                                //params.addRule(RelativeLayout.END_OF, R.id.imageView);
-                                //params.setMarginStart(10);
-                                //itemController.task_name.setLayoutParams(params); //causes layout update
-                                //itemController.task_name.setText("Shopping");
+                                /*
+                                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) itemController.task_name.getLayoutParams();
+                                params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                                params.addRule(RelativeLayout.LEFT_OF, R.id.imageView);
+                                params.addRule(RelativeLayout.END_OF, R.id.imageView);
+                                params.setMarginStart(10);
+                                itemController.task_name.setLayoutParams(params); //causes layout update
+                                itemController.task_name.setText("Shopping");
+                                */
                                 itemController.checkBox.setVisibility(View.GONE);
-
                             }
 
 
                         } else {
                             itemController.textView.setText("");
                             itemController.checkBox2.setVisibility(View.GONE);
+                            setCheckBox(pos, false);
                         }
                     }
                 });
@@ -756,6 +787,25 @@ class ExpandableListAdapter_Event_Tasks extends RecyclerView.Adapter<RecyclerVie
                 break;
 
             }
+        }
+    }
+
+    private void setCheckBox(int position, boolean visible) {
+        ViewHolder_Task_Child viewController;
+        int index = 1;
+        int tmp = recyclerView.getChildCount();
+        while (data.size() > position + index && data.get(position + index).type == Task_Child) {
+            viewController = (ViewHolder_Task_Child) recyclerView.getChildViewHolder(recyclerView.getChildAt(position + index));
+            if (visible) {
+                viewController.checkBox.setVisibility(View.VISIBLE);
+                notifyItemChanged(position+index);
+            } else {
+                viewController.checkBox.setVisibility(View.GONE);
+                notifyItemChanged(position + index);
+
+            }
+            index++;
+
         }
     }
 
@@ -792,9 +842,11 @@ class ExpandableListAdapter_Event_Tasks extends RecyclerView.Adapter<RecyclerVie
 
     private static class ViewHolder_Task_Child extends RecyclerView.ViewHolder {
         public Item refferalItem;
+        CheckBox checkBox;
 
         public ViewHolder_Task_Child(View itemView) {
             super(itemView);
+            checkBox = (CheckBox) itemView.findViewById(R.id.checkBox);
         }
     }
 

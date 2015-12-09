@@ -120,6 +120,15 @@ public class New_Event extends AppCompatActivity {
             }
         });
 
+        ImageButton done = (ImageButton) findViewById(R.id.done);
+        todo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(),Event.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 
