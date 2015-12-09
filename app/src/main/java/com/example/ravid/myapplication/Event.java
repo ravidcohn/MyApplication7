@@ -258,7 +258,11 @@ public class Event extends AppCompatActivity {
 
                     ExpandableListAdapter_Event_Tasks.Item task;
                     for (int j = 0; j < 5; j++) {
-                        task = new ExpandableListAdapter_Event_Tasks.Item(ExpandableListAdapter_Event_Tasks.Task);
+                        if(j==3) {
+                            task = new ExpandableListAdapter_Event_Tasks.Item(ExpandableListAdapter_Event_Tasks.Task2);
+                        }else{
+                            task = new ExpandableListAdapter_Event_Tasks.Item(ExpandableListAdapter_Event_Tasks.Task);
+                        }
                         task.invisibleChildren = new ArrayList<>();
                         for (int i = 0; i < 4; i++) {
                             task.invisibleChildren.add(new ExpandableListAdapter_Event_Tasks.Item(ExpandableListAdapter_Event_Tasks.Task_Child));
@@ -655,14 +659,17 @@ class ExpandableListAdapter_Event_Friends extends RecyclerView.Adapter<RecyclerV
 
 class ExpandableListAdapter_Event_Tasks extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int Task = 0;
-    public static final int Task_Child = 1;
+    public static final int Task2 = 1;
+    public static final int Task_Child = 2;
 
     private List<Item> data;
     private RecyclerView recyclerView;
+    private List<View> viewList;
 
     public ExpandableListAdapter_Event_Tasks(List<Item> data, RecyclerView recyclerView) {
         this.data = data;
         this.recyclerView = recyclerView;
+        viewList = new ArrayList<>();
     }
 
     @Override
@@ -680,12 +687,21 @@ class ExpandableListAdapter_Event_Tasks extends RecyclerView.Adapter<RecyclerVie
                 ViewHolder_Task viewHolder_task = new ViewHolder_Task(view);
                 viewHolder_task.textView.setText("");
                 viewHolder_task.checkBox2.bringToFront();
+                viewList.add(view);
                 return viewHolder_task;
+            }
+            case Task2: {
+                inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                view = inflater.inflate(R.layout.event_task2, parent, false);
+                ViewHolder_Task2 viewHolder_task2 = new ViewHolder_Task2(view);
+                viewList.add(view);
+                return viewHolder_task2;
             }
             case Task_Child: {
                 inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 view = inflater.inflate(R.layout.event_task_child, parent, false);
                 ViewHolder_Task_Child viewHolder_task_child = new ViewHolder_Task_Child(view);
+                viewList.add(view);
                 return viewHolder_task_child;
             }
         }
@@ -695,7 +711,7 @@ class ExpandableListAdapter_Event_Tasks extends RecyclerView.Adapter<RecyclerVie
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         final String[] names = new String[]{"Dani", "Dor", "Gali", "Hila", "Benjamin"};
         final Item item = data.get(position);
-        View view = holder.itemView;
+        final View view = holder.itemView;
         switch (item.type) {
             case Task_Child: {
                 /*
@@ -727,7 +743,7 @@ class ExpandableListAdapter_Event_Tasks extends RecyclerView.Adapter<RecyclerVie
                             item.invisibleChildren = new ArrayList<Item>();
                             int pos = data.indexOf(itemController.refferalItem);
                             int count = 0;
-                            while (data.size() > pos + 1 && data.get(pos + 1).type != Task) {
+                            while (data.size() > pos + 1 && data.get(pos + 1).type == Task_Child) {
                                 item.invisibleChildren.add(data.remove(pos + 1));
                                 count++;
                             }
@@ -745,9 +761,9 @@ class ExpandableListAdapter_Event_Tasks extends RecyclerView.Adapter<RecyclerVie
                             itemController.expand_arrow.setImageResource(R.mipmap.ic_collapse_arrow);
                             item.invisibleChildren = null;
                             if (itemController.checkBox.isChecked() && names[position % 5].equals("Dani")) {
-                               // setCheckBox(position, true);
+                                //setCheckBox(position, true);
                             } else {
-                               // setCheckBox(position, false);
+                                //setCheckBox(position, false);
                             }
                         }
                     }
@@ -760,8 +776,8 @@ class ExpandableListAdapter_Event_Tasks extends RecyclerView.Adapter<RecyclerVie
                             itemController.textView.setText(names[pos % 5]);
                             if (names[pos % 5].equals("Dani")) {
                                 itemController.checkBox2.setVisibility(View.VISIBLE);
-                                setCheckBox(pos, true);
-                                notifyItemChanged(pos);
+                                //setCheckBox(pos, true);
+                                //notifyItemChanged(pos);
                             } else {
                                 /*
                                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) itemController.task_name.getLayoutParams();
@@ -779,11 +795,51 @@ class ExpandableListAdapter_Event_Tasks extends RecyclerView.Adapter<RecyclerVie
                         } else {
                             itemController.textView.setText("");
                             itemController.checkBox2.setVisibility(View.GONE);
-                            setCheckBox(pos, false);
+                            //setCheckBox(pos, false);
                         }
                     }
                 });
 
+                break;
+
+            }
+            case Task2: {
+                final ViewHolder_Task2 itemController = (ViewHolder_Task2) holder;
+                itemController.refferalItem = item;
+                if (item.invisibleChildren == null) {
+                    itemController.expand_arrow.setImageResource(R.mipmap.ic_collapse_arrow);
+                } else {
+                    itemController.expand_arrow.setImageResource(R.mipmap.ic_expand_arrow);
+                }
+                //itemController.expand_arrow.setOnClickListener(new View.OnClickListener() {
+                view.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        if (item.invisibleChildren == null) {
+                            item.invisibleChildren = new ArrayList<Item>();
+                            int pos = data.indexOf(itemController.refferalItem);
+                            int count = 0;
+                            while (data.size() > pos + 1 && data.get(pos + 1).type == Task_Child) {
+                                item.invisibleChildren.add(data.remove(pos + 1));
+                                count++;
+                            }
+                            notifyItemRangeRemoved(pos + 1, count);
+                            itemController.expand_arrow.setImageResource(R.mipmap.ic_expand_arrow);
+                        } else {
+                            int pos = data.indexOf(itemController.refferalItem);
+
+                            int index = pos + 1;
+                            for (Item i : item.invisibleChildren) {
+                                data.add(index, i);
+                                index++;
+                            }
+                            notifyItemRangeInserted(pos + 1, index - pos - 1);
+                            itemController.expand_arrow.setImageResource(R.mipmap.ic_collapse_arrow);
+                            item.invisibleChildren = null;
+                        }
+                    }
+                });
                 break;
 
             }
@@ -793,21 +849,46 @@ class ExpandableListAdapter_Event_Tasks extends RecyclerView.Adapter<RecyclerVie
     private void setCheckBox(int position, boolean visible) {
         ViewHolder_Task_Child viewController;
         int index = 1;
-        int tmp = recyclerView.getChildCount();
-        while (data.size() > position + index && data.get(position + index).type == Task_Child) {
-            viewController = (ViewHolder_Task_Child) recyclerView.getChildViewHolder(recyclerView.getChildAt(position + index));
-            if (visible) {
-                viewController.checkBox.setVisibility(View.VISIBLE);
-                notifyItemChanged(position+index);
-            } else {
-                viewController.checkBox.setVisibility(View.GONE);
-                notifyItemChanged(position + index);
+        CheckBox checkBox;
+        View view;
+        if (data.get(position).invisibleChildren == null) {
+            while (data.size() > position + index && data.get(position + index).type == Task_Child) {
+                view = viewList.get(position + index);
+                checkBox = (CheckBox) view.findViewById(R.id.checkBox);
+                //viewController = (ViewHolder_Task_Child) recyclerView.getChildViewHolder(recyclerView.getChildAt(position + index));
+                if (visible) {
+                    //viewController.checkBox.setVisibility(View.VISIBLE);
+                    checkBox.setVisibility(View.VISIBLE);
+                    notifyItemChanged(position + index);
+                } else {
+                    //viewController.checkBox.setVisibility(View.GONE);
+                    checkBox.setVisibility(View.GONE);
 
+                    notifyItemChanged(position + index);
+
+                }
+                index++;
             }
-            index++;
+        } else {
+            for (int i = 0; i < data.get(position).invisibleChildren.size(); i++) {
+                view = viewList.get(position + i + 1);
+                checkBox = (CheckBox) view.findViewById(R.id.checkBox);
+                //viewController = (ViewHolder_Task_Child) recyclerView.getChildViewHolder(recyclerView.getChildAt(position + index));
+                if (visible) {
+                    //viewController.checkBox.setVisibility(View.VISIBLE);
+                    checkBox.setVisibility(View.VISIBLE);
+                    //notifyItemChanged(position + index);
+                } else {
+                    //viewController.checkBox.setVisibility(View.GONE);
+                    checkBox.setVisibility(View.GONE);
 
+                    //notifyItemChanged(position + index);
+
+                }
+            }
         }
     }
+
 
     @Override
     public int getItemViewType(int position) {
@@ -837,6 +918,16 @@ class ExpandableListAdapter_Event_Tasks extends RecyclerView.Adapter<RecyclerVie
             task_name = (TextView) itemView.findViewById(R.id.task_name);
 
 
+        }
+    }
+
+    private static class ViewHolder_Task2 extends RecyclerView.ViewHolder {
+        public ImageButton expand_arrow;
+        public Item refferalItem;
+
+        public ViewHolder_Task2(View itemView) {
+            super(itemView);
+            expand_arrow = (ImageButton) itemView.findViewById(R.id.task_list);
         }
     }
 
